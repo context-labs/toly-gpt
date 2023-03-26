@@ -1,6 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# TolyGPT
+
+[TolyGPT.com](https://tolygpt.com) is a chatbot powered by GPT-4 and trained on the [Solana validator](https://github.com/solana-labs/solana) codebase. You can use TolyGPT to ask questions about how the Solana validator works and receive highly specific answers with references back to code files.
+
+This version of TolyGPT is available here mostly for research and record keeping purposes. If you're interested in something similar for your project, please see [Autodoc](https://github.com/context-labs/autodoc), which contains an updated version of the core TolyGPT functionality designed for use with your own repositories.
+
+## Credit
+
+This project was originally forked from Sean Sullivans's [chatlangchain-js](https://github.com/sullivan-sean/chat-langchainjs) repository. The credit for the UI and core querying flow goes to him.
+
+Other contributors include:
+- [ChatLangChain](https://github.com/hwchase17/chat-langchain) - for the backend and data ingestion logic
+- [LangChain Chat NextJS](https://github.com/zahidkhawaja/langchain-chat-nextjs) - for the frontend.
 
 ## Getting Started
+
+**NOTE:** This instructions below may not work. please see [Autodoc](https://github.com/context-labs/autodoc) for an updated version. If you must use this project, do so at your own risk.
+
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 First, create a new `.env` file from `.env.example` and add your OpenAI API key found [here](https://platform.openai.com/account/api-keys).
 
@@ -73,8 +89,7 @@ seems, Vercel's serverless functions seem to prohibit streaming responses
 
 This repo borrows heavily from
 
-- [ChatLangChain](https://github.com/hwchase17/chat-langchain) - for the backend and data ingestion logic
-- [LangChain Chat NextJS](https://github.com/zahidkhawaja/langchain-chat-nextjs) - for the frontend.
+
 
 ## How To Run on Your Example
 
