@@ -1,0 +1,20 @@
+[View code on GitHub](https://github.com/solana-labs/solana/blob/master/zk-token-sdk/src/encryption/auth_encryption.rs)
+
+The `auth_encryption.rs` file in the `zk-token-sdk` project provides an implementation of authenticated encryption. The module is a simple wrapper of the `Aes128GcmSiv` implementation. The purpose of this module is to encrypt and decrypt balances for the SPL token accounts. 
+
+The `AuthenticatedEncryption` struct provides three methods: `keygen`, `encrypt`, and `decrypt`. The `keygen` method generates a new `AeKey` using a random number generator. The `encrypt` method takes an `AeKey` and a balance as input, encrypts the balance using `Aes128GcmSiv`, and returns an `AeCiphertext`. The `decrypt` method takes an `AeKey` and an `AeCiphertext` as input, decrypts the ciphertext using `Aes128GcmSiv`, and returns the balance as a `u64` if the decryption is successful.
+
+The `AeKey` struct provides four methods: `new`, `random`, `encrypt`, and `decrypt`. The `new` method takes a `Signer` and a `Pubkey` as input, creates a new `Message` with the instruction `Instruction::new_with_bytes(*address, b"AeKey", vec![])`, signs the message with the `Signer`, and returns an `AeKey` using the first 16 bytes of the signature as key material. The `random` method takes a random number generator as input and returns a new `AeKey`. The `encrypt` method takes a balance as input, encrypts the balance using `AuthenticatedEncryption::encrypt`, and returns an `AeCiphertext`. The `decrypt` method takes an `AeCiphertext` as input, decrypts the ciphertext using `AuthenticatedEncryption::decrypt`, and returns the balance as a `u64` if the decryption is successful.
+
+The `AeCiphertext` struct provides three methods: `decrypt`, `to_bytes`, and `from_bytes`. The `decrypt` method takes an `AeKey` as input, decrypts the ciphertext using `AuthenticatedEncryption::decrypt`, and returns the balance as a `u64` if the decryption is successful. The `to_bytes` method converts the `AeCiphertext` to a byte array of length 36, where the first 12 bytes are the nonce and the remaining 24 bytes are the ciphertext. The `from_bytes` method takes a byte array of length 36 as input, extracts the nonce and ciphertext, and returns an `AeCiphertext` if the input is valid.
+
+The `Nonce` and `Ciphertext` types are aliases for byte arrays of length 12 and 24, respectively. These types are used to ensure that the nonce and ciphertext sizes are always fixed.
+
+The `tests` module provides two tests: `test_aes_encrypt_decrypt_correctness` and `test_aes_new`. The `test_aes_encrypt_decrypt_correctness` test generates a random `AeKey`, encrypts a balance using `AeKey::encrypt`, decrypts the ciphertext using `AeCiphertext::decrypt`, and checks that the decrypted balance is equal to the original balance. The `test_aes_new` test creates two `Keypair`s, generates an `AeKey` using each `Keypair` and the default `Pubkey`, and checks that the two `AeKey`s are not equal. The test also creates a `NullSigner` and checks that `AeKey::new` returns an error when using the `NullSigner`.
+## Questions: 
+ 1. What encryption algorithm is being used in this module?
+- The `Aes128GcmSiv` implementation is being used for authenticated encryption.
+2. What is the purpose of the `AeKey` struct?
+- The `AeKey` struct is used to store a 128-bit key for authenticated encryption and provides methods for generating a new key from a signer or from random bytes, as well as encrypting and decrypting data using the key.
+3. What is the purpose of the `AeCiphertext` struct?
+- The `AeCiphertext` struct represents an encrypted message and contains a 12-byte nonce and a 24-byte ciphertext. It provides methods for decrypting the message using an `AeKey`, converting the message to and from bytes, and displaying the message as a base64-encoded string.

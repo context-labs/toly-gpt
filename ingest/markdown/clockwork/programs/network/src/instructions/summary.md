@@ -1,0 +1,11 @@
+The `output/clockwork/programs/network/src/instructions` folder contains a collection of Rust files that define the core functionalities of the Clockwork project, a decentralized application built on the Solana blockchain. Each file in this folder is responsible for a specific operation, such as updating the configuration settings, handling delegation claims, creating and managing pools, and managing worker accounts.
+
+The Clockwork project relies on the Anchor framework, a popular Rust-based framework for building Solana programs. The files in this folder use the `anchor_lang` prelude and other Anchor modules to define structs, accounts, and handler functions for various operations. Additionally, the Solana Program Library (SPL) is used for working with Solana accounts and the SPL Token standard.
+
+Each file in this folder defines a struct that represents a specific operation, such as `ConfigUpdate`, `DelegationClaim`, or `WorkerCreate`. These structs contain fields that represent the accounts required for the operation, and they are decorated with attributes to specify properties like mutability, initialization, seeds, bump, payer, and space. The structs also have associated handler functions that implement the main logic for the operation, such as updating settings, transferring tokens, or creating new accounts.
+
+The `mod.rs` file in this folder serves as a module declaration and re-export file, organizing and managing the various sub-modules within the project. This file is crucial for maintaining a clean and organized codebase, as it allows developers to easily locate and access the functionality provided by each sub-module.
+
+In summary, the `output/clockwork/programs/network/src/instructions` folder contains the core functionalities of the Clockwork project, implemented using the Anchor framework and the Solana Program Library. The files in this folder define structs and handler functions for various operations, such as updating settings, handling delegation claims, creating and managing pools, and managing worker accounts. Developers working with this code should be familiar with the Anchor framework, Solana accounts, and the overall structure of the Clockwork project.
+
+    

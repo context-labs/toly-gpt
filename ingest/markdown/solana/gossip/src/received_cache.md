@@ -1,0 +1,24 @@
+[View code on GitHub](https://github.com/solana-labs/solana/blob/master/gossip/src/received_cache.rs)
+
+The `received_cache.rs` file contains the implementation of a cache that tracks the timeliness of messages received from different nodes. The cache is used to prune nodes that are not delivering messages in a timely manner. The cache is implemented as an LRU cache with a fixed capacity. For each origin, the cache tracks which nodes have sent messages from that origin and their respective score in terms of timeliness of delivered messages.
+
+The `ReceivedCache` struct is the main struct that implements the cache. It contains an LRU cache of `ReceivedCacheEntry` structs. The `ReceivedCacheEntry` struct contains a hashmap of nodes that have sent messages from the origin and their respective score in terms of timeliness of delivered messages. It also contains the number of times the entry has been updated.
+
+The `ReceivedCache` struct has three methods: `new`, `record`, and `prune`. The `new` method creates a new instance of the `ReceivedCache` struct with the specified capacity. The `record` method records a message received from a node for a given origin. The `prune` method prunes nodes that are not delivering messages in a timely manner.
+
+The `record` method takes three arguments: `origin`, `node`, and `num_dups`. `origin` is the pubkey of the origin of the message, `node` is the pubkey of the node that sent the message, and `num_dups` is the number of duplicates of the message. The method updates the `ReceivedCacheEntry` for the given `origin` and `node`. If the message has been timely enough, the method increments the node's score. If the message has not been timely enough, the method ensures that the node is inserted into the cache for later pruning.
+
+The `prune` method takes five arguments: `pubkey`, `origin`, `stake_threshold`, `min_ingress_nodes`, and `stakes`. `pubkey` is the pubkey of the node that is pruning the cache, `origin` is the pubkey of the CRDS value owner, `stake_threshold` is the threshold for the stake of a node to be considered for pruning, `min_ingress_nodes` is the minimum number of nodes that must be present in the cache after pruning, and `stakes` is a hashmap of the stakes of the nodes. The method prunes nodes that are not delivering messages in a timely manner. It returns an iterator of the pubkeys of the pruned nodes.
+
+The `ReceivedCacheEntry` struct has two methods: `record` and `prune`. The `record` method takes two arguments: `node` and `num_dups`. `node` is the pubkey of the node that sent the message, and `num_dups` is the number of duplicates of the message. The method updates the `ReceivedCacheEntry` for the given `node`. If the message has been timely enough, the method increments the node's score. If the message has not been timely enough, the method ensures that the node is inserted into the cache for later pruning.
+
+The `prune` method takes five arguments: `pubkey`, `origin`, `stake_threshold`, `min_ingress_nodes`, and `stakes`. `pubkey` is the pubkey of the node that is pruning the cache, `origin` is the pubkey of the CRDS value owner, `stake_threshold` is the threshold for the stake of a node to be considered for pruning, `min_ingress_nodes` is the minimum number of nodes that must be present in the cache after pruning, and `stakes` is a hashmap of the stakes of the nodes. The method prunes nodes that are not delivering messages in a timely manner. It returns an iterator of the pubkeys of the pruned nodes.
+
+The `tests` module contains unit tests for the `ReceivedCache` and `ReceivedCacheEntry` structs. The tests ensure that the cache is working as expected.
+## Questions: 
+ 1. What is the purpose of the `ReceivedCache` struct and how does it work?
+- The `ReceivedCache` struct tracks which nodes have sent messages from a given origin and their respective score in terms of timeliness of delivered messages. It uses an LRU cache to store entries for each origin, and the `record` method is used to add new entries or update existing ones.
+2. What is the `prune` method used for and how does it work?
+- The `prune` method is used to remove nodes from the cache that have not sent messages recently or have low scores. It takes several parameters, including the node's own pubkey, the origin pubkey, a stake threshold, a minimum number of ingress nodes, and a hashmap of stakes for each node. It returns an iterator over the pubkeys of the nodes that were pruned.
+3. What is the purpose of the `ReceivedCacheEntry` struct and how does it work?
+- The `ReceivedCacheEntry` struct is used to store the nodes that have sent messages from a given origin and their respective scores. It also tracks the number of times the entry has been updated. The `record` method is used to add new nodes or update existing ones, and the `prune` method is used to remove nodes that have low scores or stakes.

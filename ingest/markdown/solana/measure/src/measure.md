@@ -1,0 +1,21 @@
+[View code on GitHub](https://github.com/solana-labs/solana/blob/master/measure/src/measure.rs)
+
+The `measure.rs` file contains a `Measure` struct and its implementation. The purpose of this code is to provide a way to measure the duration of a code block or function. The `Measure` struct has four fields: `name`, `start`, `duration`, and `unit`. The `name` field is a string that represents the name of the code block or function being measured. The `start` field is an `Instant` struct that represents the start time of the measurement. The `duration` field is a `u64` integer that represents the duration of the measurement in nanoseconds. The `unit` field is an enum that represents the unit of the measurement (not used in this implementation).
+
+The `Measure` struct has several methods. The `start` method creates a new `Measure` instance with the given name and starts the measurement by setting the `start` field to the current time. The `stop` method stops the measurement by calculating the duration of the measurement and setting the `duration` field to the result. The `as_ns`, `as_us`, `as_ms`, and `as_s` methods return the duration of the measurement in different units (nanoseconds, microseconds, milliseconds, and seconds, respectively). The `as_duration` method returns the duration of the measurement as a `Duration` struct.
+
+The `Display` trait is implemented for the `Measure` struct to provide a way to print the measurement result. The `fmt` method formats the measurement result based on the duration of the measurement. If the duration is zero, it prints the name of the code block or function followed by "running". If the duration is less than one microsecond, it prints the name of the code block or function followed by the duration in nanoseconds. If the duration is less than one millisecond, it prints the name of the code block or function followed by the duration in microseconds. If the duration is less than one second, it prints the name of the code block or function followed by the duration in milliseconds. Otherwise, it prints the name of the code block or function followed by the duration in seconds.
+
+The `tests` module contains two tests. The `test_measure` test creates a `Measure` instance, sleeps for one second, stops the measurement, and checks if the duration is within the expected range. The `test_measure_display` test creates several `Measure` instances with different durations and checks if the output of the `Display` trait is correct.
+
+This code can be used to measure the performance of different parts of the Solana project. For example, it can be used to measure the time it takes to execute a transaction or a smart contract. It can also be used to compare the performance of different implementations of the same functionality.
+## Questions: 
+ 1. What is the purpose of the `Measure` struct and its associated methods?
+- The `Measure` struct is used to measure the duration of a given operation. The `start` method initializes the struct with the name of the operation and the current time, while the `stop` method calculates the duration of the operation. The other methods (`as_ns`, `as_us`, `as_ms`, `as_s`, and `as_duration`) return the duration in different units.
+
+2. What is the purpose of the `fmt::Display` implementation for `Measure`?
+- The `fmt::Display` implementation allows instances of the `Measure` struct to be printed in a human-readable format. Depending on the duration of the operation, the output will be in nanoseconds, microseconds, milliseconds, or seconds.
+
+3. What are the purposes of the two test functions in the `tests` module?
+- The `test_measure` function tests that the `Measure` struct correctly measures the duration of an operation. It sleeps for one second and then checks that the duration is within a certain range for each of the different units.
+- The `test_measure_display` function tests that the `fmt::Display` implementation for `Measure` produces the expected output for different durations. It checks that the output is correct for durations of 1 nanosecond, 1 microsecond, 1 millisecond, 1 second, and for an operation that has not been stopped yet.

@@ -1,0 +1,15 @@
+[View code on GitHub](https://github.com/solana-labs/solana/tree/master/na/core/src/broadcast_stage)
+
+The `autodoc/solana/core/src/broadcast_stage` folder contains code related to the broadcast stage of the Solana project, which is responsible for transmitting shreds (data fragments) to other nodes in the network. This folder includes several files that implement different aspects of the broadcast stage, such as broadcasting duplicate shreds, broadcasting fake shreds, and handling failed entry verification.
+
+The `broadcast_duplicates_run.rs` file implements the `BroadcastDuplicatesRun` struct, which is responsible for broadcasting duplicate shreds to create a cluster partition. This is used to test the network's ability to handle conflicting versions of the same slot. The leader node would create a new instance of `BroadcastDuplicatesRun` and call the `run` method to start the process. The `transmit` and `record` methods would then be used to send the shreds to the appropriate nodes and store them in the blockstore, respectively.
+
+The `broadcast_fake_shreds_run.rs` file implements the `BroadcastFakeShredsRun` struct, which provides a way to broadcast fake shreds to a set of peers in the Solana network. This is useful for testing the network's performance and resilience to adversarial behavior. The `run` method pulls entries from the banking stage, creates shreds from those entries, and sends them to the provided `socket_sender` and `blockstore_sender`. It also creates fake entries and shreds, sends those to the `socket_sender`, and updates the `next_code_index` field.
+
+The `broadcast_metrics.rs` file is responsible for tracking and reporting metrics related to the broadcast stage. It defines a trait `BroadcastStats` with two methods: `update` and `report_stats`. Two structs, `TransmitShredsStats` and `InsertShredsStats`, implement the `BroadcastStats` trait to track metrics related to the transmission and insertion of shreds, respectively.
+
+The `broadcast_utils.rs` file contains utility functions for receiving and coalescing entries from a `crossbeam_channel::Receiver`. The `recv_slot_entries` function is the main function in this file and is responsible for receiving entries from the channel, coalescing them into a batch, and returning the results. This coalescing of entries into batches helps to reduce network overhead and improve network performance.
+
+The `fail_entry_verification_broadcast_run.rs` file implements the `FailEntryVerificationBroadcastRun` struct, which simulates a scenario where some shreds fail verification and tests the network's ability to repair and recover from such failures. The `run` method generates shreds from entries received from the banking stage, sets a garbage Proof of History (PoH) on the last entry in the slot to make verification fail on validators, and sends good and bad shreds to the network.
+
+Overall, the code in this folder is crucial for the proper functioning of the Solana network, as it handles the broadcasting of shreds to other nodes in the network. It also provides various testing scenarios to ensure the network's performance and security under different conditions.
